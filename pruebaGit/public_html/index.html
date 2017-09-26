@@ -1,0 +1,73 @@
+<!DOCTYPE HTML>
+<html>
+
+   <head>
+	
+      <script type="text/javascript">
+		
+         var db = openDatabase('mydb', '1.0', 'Test DB', 10 * 1024 * 1024);
+         var msg;
+         var msg2;
+			
+         db.transaction(function (tx) {
+            tx.executeSql('CREATE TABLE IF NOT EXISTS alumno (id_alumno unique, mat,nombre)');
+            tx.executeSql('INSERT INTO alumno (id_alumno, mat, nombre) VALUES (1, "123", "Jose Madero")');
+            tx.executeSql('INSERT INTO alumno (id_alumno, mat, nombre) VALUES (2, "124", "Dante Marquez")');
+            tx.executeSql('INSERT INTO alumno (id_alumno, mat, nombre) VALUES (3, "125", "Alessandra Manriquez")');
+            tx.executeSql('INSERT INTO alumno (id_alumno, mat, nombre) VALUES (4, "126", "Angela Malfred")');
+            tx.executeSql('INSERT INTO alumno (id_alumno, mat, nombre) VALUES (5, "127", "Margarita Martinez")');
+            msg = '<p>Log message created and row inserted.</p>';
+            document.querySelector('#status').innerHTML =  msg;
+         });
+            db.transaction(function (txt) {
+            
+            txt.executeSql('CREATE TABLE IF NOT EXISTS puntos (id_puntos, num_puntos,fecha,fid_alumno)');
+            txt.executeSql('INSERT INTO puntos (id_puntos, num_puntos,fecha,fid_alumno) VALUES (6,"50","18/05/17",1)');
+            txt.executeSql('INSERT INTO puntos (id_puntos, num_puntos,fecha,fid_alumno) VALUES (6,"70","18/05/17",2)');
+            txt.executeSql('INSERT INTO puntos (id_puntos, num_puntos,fecha,fid_alumno) VALUES (6,"90","18/05/17",3)');
+            txt.executeSql('INSERT INTO puntos (id_puntos, num_puntos,fecha,fid_alumno) VALUES (6,"20","18/05/17",4)');
+            txt.executeSql('INSERT INTO puntos (id_puntos, num_puntos,fecha,fid_alumno) VALUES (6,"80","18/05/17",5)');
+            msg2 = '<p>Carreras message created and row inserted.</p>';
+            document.querySelector('#status').innerHTML =  msg2;
+         });
+         db.transaction(function (tx) {
+            tx.executeSql('SELECT * FROM alumno', [], function (tx, results) {
+               var len = results.rows.length, i;
+               msg = "<p>Found rows: " + len + "</p>";
+               document.querySelector('#status').innerHTML +=  msg;
+					
+               for (i = 0; i < len; i++){
+                  msg = "<p><b>" + results.rows.item(i).nombre + "</b></p>";
+                  document.querySelector('#status').innerHTML +=  msg;
+               }
+            }, null);
+         }); 
+         db.transaction(function (txt) {
+            txt.executeSql('SELECT * FROM puntos', [], function (txt, results2) {
+               var len = results2.rows.length, i;
+               msg2 = "<p>Found rows: " + len + "</p>";
+               document.querySelector('#status').innerHTML +=  msg2;
+					
+               for (i = 0; i < len; i++){
+                  msg2 = "<p><b>" + results2.rows.item(i).num_puntos + "</b></p>";
+                  document.querySelector('#status').innerHTML +=  msg2;
+               }
+            }, null);
+         });
+			
+      </script>
+		
+   </head>
+	
+   <body bgcolor="brown">
+      <div id="status" name="status">Status Message</div>
+          <form>
+     <p>ALUMNO <input type="text"> </p> 
+     
+     <p><input type="submit"> <input type="reset"></p>
+ </form>
+         
+   </body>
+   
+   
+   
