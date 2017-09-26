@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<!--
+-->
+<html>
+    <head>
+        <title>J S O N</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body onload="onLoadFunc()" bgcolor="blue">
+        <div id="contenido">Aqui va el contenido</div>
+        <script>
+            function onLoadFunc(){
+                var x,pantalla="";
+                
+                var xhttp = new XMLHttpRequest();
+                //var ptthx= new HMLHttpReques();
+                
+                xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    
+                    var myObj= JSON.parse(this.responseText);
+                  
+                    for(x in myObj)
+                    {
+                        pantalla += "<br/>" + "ID" + myObj[x].id+ "<br/>" + "Title: "+ myObj[x].title+"<br/>" +"<b>"+ "Body:" + myObj[x].body+"<br/>";
+                    }
+                    document.getElementById("contenido").innerHTML = pantalla;
+                    
+                    }
+                };
+                xhttp.open("GET", "https://jsonplaceholder.typicode.com/posts", true);
+                xhttp.send();  
+            }
+            
+            function openUser(){
+                var x,pantalla="";
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    
+                    var myObj= JSON.parse(this.responseText);
+                    for(x in myObj)
+                    {
+                        pantalla += "<br/>" + "ID" + myObj[x].id+ "<br/>" + "Name: "+ myObj[x].name+"<br/>" +"<b>"+ "User name:" + myObj[x].username+"<br/>"+ "email:" + myObj[x].email+"<br/>"
+                        + "address" + myObj[x].address;
+                    }
+                    document.getElementById("contenido").innerHTML = pantalla;
+                    
+                    }
+                };
+                xhttp.open("GET", "https://jsonplaceholder.typicode.com/users", true);
+                xhttp.send();  
+                
+                
+            }
+        </script>
+    </body>
+</html>
